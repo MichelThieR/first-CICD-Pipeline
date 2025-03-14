@@ -41,12 +41,12 @@ pipeline {
             steps {
                 script { // check if container exist, then delete and create with updated image
                     sh '''
-                        if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
-                            docker stop $CONTAINER_NAME
-                            docker rm $CONTAINER_NAME
+                        if [ $(sudo docker ps -q -f name=$CONTAINER_NAME) ]; then
+                            sudo docker stop $CONTAINER_NAME
+                            sudo docker rm $CONTAINER_NAME
                         fi
                     '''
-                    sh 'docker run -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_IMAGE' // expose port 5000 of server                  
+                    sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_IMAGE' // expose port 5000 of server                  
                 }
             }
         }
