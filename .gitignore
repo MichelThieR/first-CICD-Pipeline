@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Docker related files
+*.tar
+*.log
+dist/
+build/
+
+# Ignore environment variables and credentials
+.env
+*.pem
+*.key
+
+# Ignore dependency files
+tmp/
+*.bak
+
+# Ignore IDE and editor files
+.vscode/
+
+# Ignore Jenkins workspace (if applicable)
+workspace/
+
+# Ignore Docker artifacts
+docker-compose.override.yml
