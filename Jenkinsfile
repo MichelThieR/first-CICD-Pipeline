@@ -11,7 +11,8 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image..."
-                    sh "sudo docker build -t $DOCKER_IMAGE ."
+                    sh "whoami"
+                    sh "docker build -t $DOCKER_IMAGE ."
                 }
             }
         }
@@ -21,7 +22,7 @@ pipeline {
                 script {
                     echo "Logging in to DockerHub..."
                     withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh "echo $DOCKER_PASS | sudo docker login -u $DOCKER_USER --password-stdin"
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
                     }
                 }
             }
@@ -31,7 +32,7 @@ pipeline {
             steps {
                 script {
                     echo "Pushing Docker image to DockerHub..."
-                    sh "sudo docker push $DOCKER_IMAGE"
+                    sh "docker push $DOCKER_IMAGE"
                 }
             }
         }
