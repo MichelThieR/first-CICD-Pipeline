@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "mtrose/flask-app"
         DOCKER_CREDENTIALS = "michel-dockerhub" // Jenkins credentials ID for DockerHub
+        CONTAINER_NAME = "flask-app"
     }
     
     stages {
@@ -32,6 +33,20 @@ pipeline {
                 script {
                     echo "Pushing Docker image to DockerHub..."
                     sh "sudo docker push $DOCKER_IMAGE"
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script { // check if container exist, then delete and create with updated image
+                    sh '''
+                        if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
+                            docker stop $CONTAINER_NAME
+                            docker rm $CONTAINER_NAME
+                        fi
+                    '''
+                    sh 'docker run -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_IMAGE' // expose port 5000 of server                  
                 }
             }
         }
